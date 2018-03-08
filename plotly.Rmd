@@ -1,0 +1,73 @@
+## Basic Scatterplot
+
+```{r, eval = FALSE}
+library(plotly)
+plot_ly(mtcars, x = mtcars$wt, y = mpg, mode = "markers")
+```
+
+
+## Scatterplot Color
+
+```{r, echo = FALSE, message = FALSE}
+plot_ly(mtcars, x = mtcars$wt, y = mpg, mode = "markers", color = as.factor(mtcars$cyl))
+```
+
+## Continuous Color
+
+You can also show continuous variables with color in scatterplots.
+
+```{r, eval = FALSE}
+plot_ly(mtcars, x = mtcars$wt, y = mpg, mode = "markers", color = mtcars$disp)
+```
+
+## Continuous Color
+
+```{r, echo = FALSE, message=FALSE}
+plot_ly(mtcars, x = mtcars$wt, y = mtcars$mpg, mode = "markers", color = mtcars$disp)
+```
+
+## Scatterplot Sizing
+
+By specifying the `size` argument you can make each point in yout scatterplot a different size.
+
+```{r, eval = FALSE}
+plot_ly(mtcars, x = mtcars$wt, y = mtcars$mpg, mode = "markers", color = as.factor(mtcars$cyl),
+        size = mtcars$hp)
+```
+
+
+## 3D Scatterplot
+
+You can create a three-dimensional scatterplot with the `type = "scatter3d"` argument. If you click and drag these scatterplots you can view them from different angles.
+```{r}
+set.seed(2016-07-21)
+temp <- rnorm(100, mean = 30, sd = 5)
+pressure2 <- rnorm(100)
+dtime <- 1:100
+plot_ly(x = temp, y = pressure2, z = dtime, 
+        type = "scatter3d", mode = "markers", color = temp)
+```
+
+
+## Line Graph 
+
+```{r, eval = FALSE, message=FALSE}
+data("airmiles")
+plot_ly(x = time(airmiles), y = airmiles, type = "bar")
+```
+
+## Multi line Graph
+
+You can show multiple lines by specifying the column in the data frame that separates the lines:
+```{r}
+library(plotly)
+library(tidyr)
+library(dplyr)
+data("EuStockMarkets")
+
+stocks <- as.data.frame(EuStockMarkets) %>%
+  gather(index, price) %>%
+  mutate(time = rep(time(EuStockMarkets), 4))
+# problematic
+plot_ly(stocks, x = EuStockMarkets$time, y = EuStockMarkets$price, color = index)
+```
